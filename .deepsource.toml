@@ -1,6 +1,6 @@
 version = 1
 
-exclude_patterns = ["project/"]
+exclude_patterns = ["project/**"]
 
 [[analyzers]]
 name = "scala"
