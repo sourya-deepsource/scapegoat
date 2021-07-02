@@ -10,17 +10,19 @@ case class Reports(
 )
 
 case class Configuration(
-  dataDir: Option[File],
-  disabledInspections: List[String],
-  enabledInspections: List[String],
-  ignoredFiles: List[String],
-  consoleOutput: Boolean,
-  verbose: Boolean,
-  reports: Reports,
-  customInspectors: Seq[Inspection],
-  sourcePrefix: String,
-  minimalLevel: Level,
-  overrideLevels: Map[String, Level]
+  dataDir: Option[
+    File
+  ],
+disabledInspections: List[String],
+enabledInspections: List[String],
+ignoredFiles: List[String],
+consoleOutput: Boolean,
+verbose: Boolean,
+reports: Reports,
+customInspectors: Seq[Inspection],
+sourcePrefix: String,
+minimalLevel: Level,
+overrideLevels: Map[String, Level]
 )
 
 object Configuration {
