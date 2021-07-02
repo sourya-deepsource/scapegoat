@@ -5,3 +5,7 @@ exclude_patterns = ["project/**"]
 [[analyzers]]
 name = "scala"
 enabled = true
+
+[[transformers]]
+name = "scalafmt"
+enabled = true
