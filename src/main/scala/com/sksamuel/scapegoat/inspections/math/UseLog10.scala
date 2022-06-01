@@ -12,7 +12,7 @@ class UseLog10
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
@@ -20,9 +20,7 @@ class UseLog10
           override def inspect(tree: Tree): Unit = {
 
             def isMathPackage(pack: String) =
-              pack == "scala.math.package" ||
-              pack == "java.lang.Math" ||
-              pack == "java.lang.StrictMath"
+              pack == "scala.math.package" || pack == "java.lang.Math" || pack == "java.lang.StrictMath"
 
             tree match {
               case Apply(

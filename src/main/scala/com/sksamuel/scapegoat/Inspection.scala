@@ -4,7 +4,8 @@ import scala.reflect.internal.util.Position
 import scala.tools.nsc.Global
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 abstract class Inspection(
   val text: String,
@@ -13,7 +14,7 @@ abstract class Inspection(
   val explanation: String
 ) {
 
-  val self = this
+  val self: Inspection = this
 
   def inspector(context: InspectionContext): Inspector
 
@@ -30,8 +31,8 @@ abstract class Inspector(val context: InspectionContext) {
   def postTyperTraverser: context.Traverser
 
   /**
-   * This method is invoked after all phases of the compiler have completed.
-   * This method can be used to clean up inspections; to report errors after all phases are complete.
+   * This method is invoked after all phases of the compiler have completed. This method can be used to clean
+   * up inspections; to report errors after all phases are complete.
    */
   def postInspection(): Unit = ()
 }
@@ -85,10 +86,9 @@ final case class InspectionContext(global: Global, feedback: Feedback) {
       an.tree.tpe =:= SuppressWarnings || an.tree.tpe.erasure.toString == "com.sksamuel.scapegoat.Safe"
 
     private def isSuppressed(symbol: Symbol) =
-      symbol != null &&
-      symbol.annotations.exists(an => isSkipAnnotation(an) && isThisDisabled(an))
+      symbol != null && symbol.annotations.exists(an => isSkipAnnotation(an) && isThisDisabled(an))
 
-    protected def continue(tree: Tree) = super.traverse(tree)
+    protected def continue(tree: Tree): Unit = super.traverse(tree)
 
     protected def inspect(tree: Tree): Unit
 
@@ -103,13 +103,13 @@ final case class InspectionContext(global: Global, feedback: Feedback) {
         case tri @ Try(_, _, _) if isSuppressed(tri.symbol)      =>
         case ClassDef(_, _, _, Template(parents, _, _))
             if parents.map(_.tpe.typeSymbol.fullName).contains("scala.reflect.api.TypeCreator") =>
-        case _ if analyzer.hasMacroExpansionAttachment(tree) => //skip macros as per http://bit.ly/2uS8BrU
+        case _ if analyzer.hasMacroExpansionAttachment(tree) => // skip macros as per http://bit.ly/2uS8BrU
         case _                                               => inspect(tree)
       }
     }
 
     protected def isArray(tree: Tree): Boolean = tree.tpe.typeSymbol.fullName == "scala.Array"
-    protected def isTraversable(tree: Tree): Boolean = tree.tpe <:< typeOf[Traversable[Any]]
+    protected def isIterable(tree: Tree): Boolean = tree.tpe <:< typeOf[Iterable[Any]]
     protected def isSeq(t: Tree): Boolean = t.tpe <:< typeOf[Seq[Any]]
     protected def isIndexedSeq(t: Tree): Boolean = t.tpe <:< typeOf[IndexedSeq[Any]]
     protected def isSet(t: Tree, allowMutableSet: Boolean = true): Boolean = {

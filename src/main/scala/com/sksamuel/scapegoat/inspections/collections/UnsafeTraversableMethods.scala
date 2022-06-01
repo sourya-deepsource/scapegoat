@@ -27,7 +27,7 @@ class UnsafeTraversableMethods
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
@@ -35,8 +35,9 @@ class UnsafeTraversableMethods
           override def inspect(tree: Tree): Unit = {
             tree match {
               case Select(left, TermName(method)) =>
-                if (isTraversable(left) && unsafeMethods.contains(method))
+                if (isIterable(left) && unsafeMethods.contains(method))
                   context.warn(tree.pos, self, tree.toString.take(500))
+                else continue(tree)
               case _ => continue(tree)
             }
           }

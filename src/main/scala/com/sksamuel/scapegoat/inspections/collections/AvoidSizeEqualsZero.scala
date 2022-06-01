@@ -3,7 +3,8 @@ package com.sksamuel.scapegoat.inspections.collections
 import com.sksamuel.scapegoat.{Inspection, InspectionContext, Inspector, Levels}
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class AvoidSizeEqualsZero
     extends Inspection(
@@ -16,7 +17,7 @@ class AvoidSizeEqualsZero
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
@@ -27,7 +28,7 @@ class AvoidSizeEqualsZero
           override def inspect(tree: Tree): Unit = {
             tree match {
               case Apply(Select(Select(q, Size | Length), TermName("$eq$eq")), List(Literal(Constant(0))))
-                  if isTraversable(q) =>
+                  if isIterable(q) =>
                 context.warn(tree.pos, self, tree.toString.take(100))
               case _ => continue(tree)
             }

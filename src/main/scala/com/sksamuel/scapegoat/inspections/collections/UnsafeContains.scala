@@ -3,7 +3,8 @@ package com.sksamuel.scapegoat.inspections.collections
 import com.sksamuel.scapegoat._
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class UnsafeContains
     extends Inspection(
@@ -11,13 +12,12 @@ class UnsafeContains
       defaultLevel = Levels.Error,
       description = "Checks `Seq.contains()` and `Option.contains()` for unrelated types.",
       explanation =
-        "`contains()` accepts arguments af any type, which means you might be checking if your collection " +
-        "contains an element of an unrelated type."
+        "`contains()` accepts arguments af any type, which means you might be checking if your collection contains an element of an unrelated type."
     ) {
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
           import context.global._
           import treeInfo.Applied
@@ -33,8 +33,8 @@ class UnsafeContains
           private def isCompatibleType(container: Tree, value: Tree, typ: Symbol): Boolean =
             container.tpe baseType typ match {
               case TypeRef(_, _, elem :: Nil) if elem.isInstanceOf[Any] && elem <:< value.tpe => true
-              case TypeRef(_, _, elem :: Nil)                                                 => value.tpe <:< elem
-              case _                                                                          => false
+              case TypeRef(_, _, elem :: Nil) => value.tpe <:< elem
+              case _                          => false
             }
 
           private def isCompatibleType(container: Tree, value: Tree): Boolean =

@@ -5,7 +5,8 @@ import scala.reflect.internal.util.Position
 import scala.tools.nsc.reporters.Reporter
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class Feedback(
   reporter: Reporter,
@@ -20,9 +21,9 @@ class Feedback(
   def shouldPrint(warning: Warning): Boolean =
     configuration.consoleOutput && warning.hasMinimalLevelOf(configuration.minimalLevel)
 
-  def infos = warnings(Levels.Info)
-  def errors = warnings(Levels.Error)
-  def warns = warnings(Levels.Warning)
+  def infos: Seq[Warning] = warnings(Levels.Info)
+  def errors: Seq[Warning] = warnings(Levels.Error)
+  def warns: Seq[Warning] = warnings(Levels.Warning)
   def warnings(level: Level): Seq[Warning] = warnings.filter(_.level == level)
 
   def warn(

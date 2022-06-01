@@ -19,7 +19,8 @@ import com.sksamuel.scapegoat.inspections.unneccesary._
 import com.sksamuel.scapegoat.inspections.unsafe._
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 object Inspections extends App {
 
@@ -35,9 +36,11 @@ object Inspections extends App {
       new AvoidToMinusOne,
       new BigDecimalDoubleConstructor,
       new BigDecimalScaleWithoutRoundingMode,
+      new BooleanParameter,
       new BoundedByFinalType,
       new BrokenOddness,
       new CatchException,
+      new CatchExceptionImmediatelyRethrown,
       new CatchFatal,
       new CatchNpe,
       new CatchThrowable,
@@ -118,6 +121,7 @@ object Inspections extends App {
       new ReverseTailReverse,
       new ReverseTakeReverse,
       new SimplifyBooleanExpression,
+      new StoreBeforeReturn,
       new StripMarginOnRegex,
       new SubstringZero,
       new SuspiciousMatchOnClassObject,

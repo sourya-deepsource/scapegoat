@@ -3,7 +3,8 @@ package com.sksamuel.scapegoat.inspections.collections
 import com.sksamuel.scapegoat._
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class CollectionNamingConfusion
     extends Inspection(
@@ -16,17 +17,15 @@ class CollectionNamingConfusion
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
 
           private def isNamedSet(name: String): Boolean =
-            name.trim == "set" || name.trim.endsWith("Set") ||
-            name.matches(".*Set[A-Z].*")
+            name.trim == "set" || name.trim.endsWith("Set") || name.matches(".*Set[A-Z].*")
           private def isNamedList(name: String): Boolean =
-            name.trim == "list" || name.trim.endsWith("List") ||
-            name.matches(".*List[A-Z].*")
+            name.trim == "list" || name.trim.endsWith("List") || name.matches(".*List[A-Z].*")
 
           override def inspect(tree: Tree): Unit = {
             tree match {

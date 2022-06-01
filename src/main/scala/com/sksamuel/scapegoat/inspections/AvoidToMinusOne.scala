@@ -5,7 +5,8 @@ import scala.runtime.{RichInt, RichLong}
 import com.sksamuel.scapegoat.{Inspection, InspectionContext, Inspector, Levels}
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class AvoidToMinusOne
     extends Inspection(
@@ -17,7 +18,7 @@ class AvoidToMinusOne
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
@@ -29,9 +30,9 @@ class AvoidToMinusOne
 
           private def isIntegral(tree: Tree): Boolean =
             tree.tpe <:< IntTpe ||
-            tree.tpe <:< LongTpe ||
-            tree.tpe <:< typeOf[RichInt] ||
-            tree.tpe <:< typeOf[RichLong]
+              tree.tpe <:< LongTpe ||
+              tree.tpe <:< typeOf[RichInt] ||
+              tree.tpe <:< typeOf[RichLong]
 
           override def inspect(tree: Tree): Unit = {
             tree match {

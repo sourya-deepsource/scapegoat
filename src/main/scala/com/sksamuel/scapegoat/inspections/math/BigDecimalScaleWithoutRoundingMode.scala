@@ -3,7 +3,8 @@ package com.sksamuel.scapegoat.inspections.math
 import com.sksamuel.scapegoat._
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  */
 class BigDecimalScaleWithoutRoundingMode
     extends Inspection(
@@ -12,13 +13,12 @@ class BigDecimalScaleWithoutRoundingMode
       description =
         "Checks for use of `setScale()` on a BigDecimal without setting the rounding mode can throw an exception.",
       explanation =
-        "When using `setScale()` on a BigDecimal without setting the rounding mode, this can throw an exception " +
-        "if rounding is required. Did you mean to call `setScale(s, RoundingMode.XYZ)`?"
+        "When using `setScale()` on a BigDecimal without setting the rounding mode, this can throw an exception if rounding is required. Did you mean to call `setScale(s, RoundingMode.XYZ)`?"
     ) {
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._

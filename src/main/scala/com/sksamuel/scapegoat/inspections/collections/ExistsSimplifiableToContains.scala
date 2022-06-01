@@ -3,9 +3,10 @@ package com.sksamuel.scapegoat.inspections.collections
 import com.sksamuel.scapegoat.{Inspection, InspectionContext, Inspector, Levels}
 
 /**
- * @author Stephen Samuel
+ * @author
+ *   Stephen Samuel
  *
- *         Inspired by Intellij
+ * Inspired by IntelliJ
  */
 class ExistsSimplifiableToContains
     extends Inspection(
@@ -17,7 +18,7 @@ class ExistsSimplifiableToContains
 
   def inspector(context: InspectionContext): Inspector =
     new Inspector(context) {
-      override def postTyperTraverser =
+      override def postTyperTraverser: context.Traverser =
         new context.Traverser {
 
           import context.global._
@@ -26,7 +27,7 @@ class ExistsSimplifiableToContains
 
           private def doesElementTypeMatch(container: Tree, value: Tree): Boolean = {
             val valueType = value.tpe.underlying.typeSymbol.tpe
-            val traversableType = container.tpe.underlying.baseType(typeOf[Traversable[Any]].typeSymbol)
+            val traversableType = container.tpe.underlying.baseType(typeOf[Iterable[Any]].typeSymbol)
             traversableType.typeArgs.exists(t => valueType <:< t || valueType =:= t)
           }
 
